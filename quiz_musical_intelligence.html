@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اختبار الذكاء الموسيقي — 80 سؤالاً</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FBF8F2;
+  --paper2:#F4EFE5;
+  --ink:#23201B;
+  --ink-soft:#5E584D;
+  --line:#E4DCCB;
+  --accent:#B4552D;
+  --accent-deep:#8F3F1E;
+  --olive:#6E7B5E;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Cairo',sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  min-height:100vh;
+  line-height:1.8;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;
+  background-image:radial-gradient(#00000008 1px, transparent 1px);
+  background-size:22px 22px;
+}
+
+.wrap{
+  max-width:640px;margin:0 auto;min-height:100vh;
+  display:flex;flex-direction:column;padding:24px 20px 48px;
+}
+
+.screen{display:none;flex:1;flex-direction:column;animation:fade .5s ease both}
+.screen.active{display:flex}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+.hero{flex:1;display:flex;flex-direction:column;justify-content:center;gap:20px;text-align:center}
+.kicker{
+  display:inline-block;margin:0 auto;font-size:.8rem;letter-spacing:2px;
+  color:var(--accent);border:1px solid var(--line);padding:6px 18px;border-radius:999px;
+  background:#fff;
+}
+h1{font-family:'Amiri',serif;font-size:clamp(2.2rem,8vw,3.2rem);font-weight:700;line-height:1.4}
+h1 em{font-style:italic;color:var(--accent-deep)}
+.lead{color:var(--ink-soft);font-size:1.02rem;max-width:46ch;margin:0 auto}
+.btn{
+  font-family:'Cairo',sans-serif;font-weight:700;font-size:1.05rem;cursor:pointer;
+  background:var(--ink);color:var(--paper);border:none;border-radius:14px;
+  padding:16px 44px;transition:transform .15s ease, background .2s;
+  box-shadow:0 6px 18px #23201b22;margin:8px auto 0;display:block;
+}
+.btn:hover{background:var(--accent-deep);transform:translateY(-2px)}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.legend{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:28px;text-align:right;
+}
+.legend div{
+  background:#fff;border:1px solid var(--line);border-radius:12px;
+  padding:10px 14px;font-size:.85rem;color:var(--ink-soft);
+}
+.legend b{color:var(--ink)}
+footer{margin-top:auto;text-align:center;font-size:.75rem;color:#A79E8D;padding-top:40px}
+
+.topbar{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.counter{font-family:'Amiri',serif;font-size:1.3rem;white-space:nowrap}
+.bar{flex:1;height:6px;background:var(--paper2);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);border-radius:99px;transition:width .45s cubic-bezier(.4,0,.2,1)}
+.axis-tag{
+  font-size:.75rem;color:var(--olive);font-weight:700;letter-spacing:.5px;
+  margin-bottom:6px;
+}
+.q-card{
+  background:#fff;border:1px solid var(--line);border-radius:18px;
+  padding:26px 24px;box-shadow:0 4px 14px #23201b0d;
+}
+.question{font-family:'Amiri',serif;font-size:clamp(1.25rem,4.5vw,1.5rem);font-weight:700;line-height:1.9;margin-bottom:22px}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{
+  font-family:'Cairo',sans-serif;font-size:.98rem;text-align:right;cursor:pointer;
+  background:var(--paper);border:1.5px solid var(--line);border-radius:12px;
+  padding:14px 18px;display:flex;align-items:center;gap:12px;
+  transition:border-color .15s, background .15s, transform .1s;color:var(--ink);
+}
+.opt .dot{
+  width:16px;height:16px;border-radius:50%;border:2px solid #C9BFA8;flex-shrink:0;
+  transition:border-color .15s, background .15s;
+}
+.opt:hover{border-color:var(--accent)}
+.opt.sel{background:#FDF3EC;border-color:var(--accent);font-weight:700}
+.opt.sel .dot{border-color:var(--accent);background:var(--accent)}
+.opt:active{transform:scale(.98)}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:22px;min-height:52px}
+.link-btn{
+  background:none;border:none;font-family:'Cairo',sans-serif;color:var(--ink-soft);
+  cursor:pointer;font-size:.9rem;padding:10px 6px;
+}
+.link-btn:hover{color:var(--ink)}
+.btn.next{padding:13px 40px;margin:0}
+
+.result{flex:1;display:flex;flex-direction:column;justify-content:center;gap:22px;text-align:center}
+.score-ring{position:relative;width:190px;height:190px;margin:0 auto}
+.score-ring svg{transform:rotate(-90deg)}
+.score-ring circle{fill:none;stroke-width:9;stroke-linecap:round}
+.ring-bg{stroke:var(--paper2)}
+.ring-fg{stroke:var(--accent);transition:stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1)}
+.score-num{
+  position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
+  font-family:'Amiri',serif;
+}
+.score-num b{font-size:3rem;line-height:1}
+.score-num span{font-size:.85rem;color:var(--ink-soft)}
+.verdict{font-family:'Amiri',serif;font-size:1.5rem;font-weight:700;max-width:34ch;margin:0 auto}
+.again{background:none;border:1.5px solid var(--ink);color:var(--ink);
+       box-shadow:none;margin-top:6px}
+.again:hover{background:var(--ink);color:var(--paper)}
+
+@media (min-width:700px){
+  .legend{grid-template-columns:repeat(4,1fr)}
+  .q-card{padding:34px 36px}
+}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ======== شاشة البداية ======== -->
+  <section id="start" class="screen active">
+    <div class="hero">
+      <span class="kicker">اختبار موسيقي · ٨٠ سؤالاً</span>
+      <h1>اكتشف <em>ذكاءك الموسيقي</em> وقدراتك في الإدراك الصوتي والإيقاع</h1>
+      <button class="btn" onclick="startQuiz()">ابدأ الاختبار</button>
+    </div>
+    <footer>مدة الاختبار التقريبية: ٦ – ٨ دقائق</footer>
+  </section>
+
+  <!-- ======== شاشة الأسئلة ======== -->
+  <section id="quiz" class="screen">
+    <div class="topbar">
+      <div class="counter" id="counter">١ / ٨٠</div>
+      <div class="bar"><i id="barFill"></i></div>
+    </div>
+    <div class="axis-tag" id="axisTag"></div>
+    <div class="q-card">
+      <div class="question" id="qText"></div>
+      <div class="opts" id="opts"></div>
+    </div>
+    <div class="nav">
+      <button class="link-btn" id="prevBtn" onclick="prevQ()">→ السابق</button>
+      <button class="btn next" id="nextBtn" onclick="nextQ()" disabled>التالي</button>
+    </div>
+  </section>
+
+  <!-- ======== شاشة النتيجة ======== -->
+  <section id="result" class="screen">
+    <div class="result">
+      <span class="kicker">نتيجتك النهائية</span>
+      <div class="score-ring">
+        <svg width="190" height="190">
+          <circle class="ring-bg" cx="95" cy="95" r="84"></circle>
+          <circle class="ring-fg" id="ringFg" cx="95" cy="95" r="84"></circle>
+        </svg>
+        <div class="score-num"><b id="scoreNum">0</b><span>من 100</span></div>
+      </div>
+      <div class="verdict" id="verdict"></div>
+      <button class="btn again" onclick="restart()">إعادة الاختبار</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* ========== محاور الذكاء الموسيقي: 8 محاور × 10 أسئلة = 80 ========== */
+const AXES = [
+ {
+  "name": "الحس الإيقاعي والإيقاع الحركي",
+  "qs": [
+   "هل تدندن بلحن أُغنيتك المفضلة أثناء إعداد القهوة في الصباح؟",
+   "هل تلحظ فوراً النشاز الصوتي عندما يغني أحدهم في حفلة ميلاد؟",
+   "هل تضبط إيقاع خطواتك مع الموسيقى الخلفية أثناء التسوق في المجمع التجاري؟",
+   "هل تفضل الاستماع إلى موسيقى كلاسيكية بدون كلمات أثناء التركيز في العمل؟",
+   "هل تتذكر نغمة إعلان تلفزيوني قديم شاهدته في طفولتك بدقة؟",
+   "هل تنقر بأصابعك على مقود السيارة تزامناً مع الأغنية التي تبثها الراديو؟",
+   "هل تشتري تذاكر الحفلات الموسيقية الحية فور الإعلان عنها في نهاية الأسبوع؟",
+   "هل تميز الفروق بين صوت الكمان وصوت التشيلو عند الاستماع لأوركسترا؟",
+   "هل تقضي وقت فراغك المسائي في محاولة تعلم العزف على آلة موسيقية؟",
+   "هل تجد نفسك تحفظ كلمات الأغنية الجديدة بعد سماعها لمرتين فقط؟"
+  ]
+ },
+ {
+  "name": "الحس الإيقاعي والإيقاع الحركي",
+  "qs": [
+   "هل تستعين بالأنغام الهادئة لتساعدك على النوم في الليالي القلقة؟",
+   "هل ترغب في الانضمام إلى كورال محلي للغناء الجماعي في أوقات الفراغ؟",
+   "هل يزعجك صوت المحركات غير المنتظم ويفقدك تركيزك أثناء القراءة؟",
+   "هل تربط ذكريات رحلاتك الصيفية القديمة بأغنية معينة كانت تبث آنذاك؟",
+   "هل تستمتع بتحليل الطبقات الصوتية للمغنين أثناء مشاهدة البرامج الغنائية؟",
+   "هل تختار جرس رنين هاتفك بناءً على جمال النوتة الموسيقية فيه؟",
+   "هل تميز الفارق الصوتي بين قطرات المطر العنيفة والهادئة على نافذتك؟",
+   "هل تزور متاجر الآلات الموسيقية فقط لتجربة الصوت الصادر منها؟",
+   "هل تشعر بالبهجة عند سماع صوت زقزقة العصافير في الصباح الباكر؟",
+   "هل تغير محطة الراديو فوراً إذا كان إيقاع الأغنية يفتقد التناغم؟"
+  ]
+ },
+ {
+  "name": "الحس الإيقاعي والإيقاع الحركي",
+  "qs": [
+   "هل تتخيل حركات تعبيرية متناسقة مع الموسيقى أثناء استماعك لها في الحافلة؟",
+   "هل تجد سهولة في تقليد نبرات أصوات المعلقين الرياضيين بدقة؟",
+   "هل تفضل ممارسة الرياضة الصباحية على إيقاع موسيقى سريعة وحماسية؟",
+   "هل تسترعي انتباهك المؤثرات الصوتية في أفلام الرعب أكثر من الصورة؟",
+   "هل تقرأ عن تاريخ الموسيقى وتطور الآلات في أوقات فراغك؟",
+   "هل يستفزك التحدث بنبرة صوت حادة وغير منتظمة أثناء الحوارات؟",
+   "هل تنشئ قوائم تشغيل موسيقية مخصصة لكل حالة نفسية تمر بها؟",
+   "هل تشعر برغبة في الرقص عندما تسمع قرع الطبول في المهرجانات؟",
+   "هل تستطيع معرفة الملحن الأصلي للمقطوعة بمجرد سماع أسلوب العزف؟",
+   "هل تركز على تداخل الأصوات الطبيعية كحفيف الشجر مع هبوب الرياح؟"
+  ]
+ },
+ {
+  "name": "الحس الإيقاعي والإيقاع الحركي",
+  "qs": [
+   "هل تحرص على اقتناء سماعات أذن ذات جودة صوتية عالية وعزل ممتاز؟",
+   "هل يسهل عليك حفظ الأناشيد الجماعية خلال الفعاليات السنوية للشركة؟",
+   "هل تلاحظ التغير الطفيف في صوت محرك سيارتك قبل أن يتعطل؟",
+   "هل تستمتع بحضور ورش عمل لتعليم مبادئ السولفيج الموسيقي؟",
+   "هل تنتبه إلى الإيقاع الداخلي للقصائد الشعرية عند إلقائها في الأمسيات؟",
+   "هل يثير اهتمامك معرفة الفروق بين المقامات الموسيقية الشرقية والغربية؟",
+   "هل تبتكر نغمات بسيطة وتدندن بها أثناء الاستحمام اليومي؟",
+   "هل تتأثر نفسيتك بالسرعة والبطء في ريتم الموسيقى المحيطة بك؟",
+   "هل تتابع حسابات عازفي الآلات العالمية على وسائل التواصل الاجتماعي؟",
+   "هل تجد الموسيقى وسيلة أساسية للتعبير عن حزنك في الأوقات العصيبة؟"
+  ]
+ },
+ {
+  "name": "الحس الإيقاعي والإيقاع الحركي",
+  "qs": [
+   "هل تلاحظ جودة التوزيع الموسيقي في شارة المسلسلات الرمضانية؟",
+   "هل تفضل الهدايا التي تحمل طابعاً موسيقياً كصندوق الموسيقى الكلاسيكي؟",
+   "هل تقارن بين النسخ المختلفة للأغنية الواحدة لمعرفة التوزيع الأجمل؟",
+   "هل تشعر بصداع سريع عند الجلوس في مكان تتداخل فيه عينات موسيقية مختلفة؟",
+   "هل تميز صوت صديقك المفضل من بين عشرات الأصوات في قاعة مزدحمة؟",
+   "هل تبحث عن النوتة الموسيقية لقطع تحبها لتفهم تركيبتها؟",
+   "هل تقضي أمسيات العطلة في الاستماع إلى ألبومات الفينيل القديمة؟",
+   "هل تركز على التناغم الصوتي بين المغني والبطانة الخلفية له؟",
+   "هل يسهل عليك تحديد النغمة الأعلى والمنخفضة في اختبارات السمع؟",
+   "هل تستخدم الموسيقى التصويرية للألعاب الإلكترونية لتحفيز حماسك أثناء اللعب؟"
+  ]
+ },
+ {
+  "name": "الحس الإيقاعي والإيقاع الحركي",
+  "qs": [
+   "هل تشعر بالفضول لمعرفة كيفية صناعة الآلات الوترية الخشبية؟",
+   "هل تحب سماع صوت أمواج البحر وتعتبره سمفونية طبيعية متكاملة؟",
+   "هل تتذكر النغمات التي كانت تعزف في طابور الصباح المدرسي حتى الآن؟",
+   "هل تكتشف الأخطاء الإيقاعية لفرقة العزف فوراً خلال البث المباشر؟",
+   "هل تحب مشاركة أصدقائك روابط لمقطوعات موسيقية نادرة اكتشفتها مؤخراً؟",
+   "هل تتأثر إنتاجيتك في العمل إيجاباً عند تشغيل موسيقى مساعدة للتركيز؟",
+   "هل تشعر بالراحة عند سماع صوت خرير الماء في الحدائق العامة؟",
+   "هل تنتبه لجمال الرنين الصوتي للأواني الزجاجية عند ملامستها لبعضها؟",
+   "هل تمتلك حساً يجعلك تتوقع النوتة القادمة في أغنية تسمعها لأول مرة؟",
+   "هل تسترخي بشكل أفضل عند سماع أصوات الطبيعة المسجلة كالرعد والمطر؟"
+  ]
+ },
+ {
+  "name": "الحس الإيقاعي والإيقاع الحركي",
+  "qs": [
+   "هل تهتم بمعرفة السيرة الذاتية لكبار الموسيقيين مثل بيتهوفن وموزارت؟",
+   "هل يثير حماسك حضور حفلة جاز في مقهى صغير بوسط المدينة؟",
+   "هل تدرك الفروق الدقيقة في نبرة صوت شريكك وتبني عليها حالته المزاجية؟",
+   "هل تبكي أحياناً بسبب عمق الشجن في مقطوعة موسيقية خالية من الكلمات؟",
+   "هل تشارك في النقاشات الإلكترونية التي تحلل الألبومات الموسيقية الجديدة؟",
+   "هل تجد متعة في محاكاة صوت الطبلة بكفيك على سطح المكتب؟",
+   "هل تتضايق من تشغيل الموسيقى الصاخبة في المطاعم أثناء تناول العشاء؟",
+   "هل تحفظ اللحن الأساسي للأوبرا العالمية وتستطيع مراجعته بذهنك؟",
+   "هل تجد في كتابة الكلمات وتلحينها هواية سرية تمارسها بالمنزل؟",
+   "هل تلفت انتباهك النغمة المعتمدة لإشارات الانطلاق والتوقف في القطارات؟"
+  ]
+ },
+ {
+  "name": "الحس الإيقاعي والإيقاع الحركي",
+  "qs": [
+   "هل تستطيع فصل صوت آلة القانون بذهنك ومتابعته وسط فرقة كاملة؟",
+   "هل تشعر بالانسجام عند رؤية حركة أمواج الحقول مع الرياح بانسجام؟",
+   "هل تحرص على زيارة دار الأوبرا مرة واحدة على الأقل سنوياً؟",
+   "هل تحتفظ بتسجيلات صوتية لألحان خطرت ببالك فجأة عبر هاتفك؟",
+   "هل تشعر بنوع من القشعريرة عند سماع صوت كورال يغني بقوة؟",
+   "هل تميز مخارج الحروف والنبرات الصحيحة لدى قراء الراديو المحترفين؟",
+   "هل تفضل قضاء وقت السفر الطويل في الاستماع لألبوم موسيقي متكامل؟",
+   "هل تبحث عن التفسير العلمي لظاهرة التلحين وتأثير الترددات الصيتية على الدماغ؟",
+   "هل تتأثر جودة نومك بنوعية الأصوات والموسيقى التي تسمعها قبل النوم؟",
+   "هل تشعر بأن الموسيقى هي لغتك الحقيقية التي تفهمك دون عناء؟"
+  ]
+ }
+];
+
+/* نظام العلامات: الحد الأقصى = 80 × 2 = 160 → تُقاس على 100 */
+const TOTAL_Q = 80;
+const MAX_SCORE = TOTAL_Q * 2; // 160
+
+const OPTIONS = [
+  {label:"أبداً", v:0},
+  {label:"أحياناً", v:0.5},
+  {label:"غالباً", v:1},
+  {label:"دائماً", v:2}
+];
+
+let flat = [], answers = [], idx = 0;
+
+function buildFlat(){
+  flat = [];
+  AXES.forEach((a, ai) => a.qs.forEach(q => flat.push({axis: ai, text: q})));
+}
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0});
+}
+
+function startQuiz(){
+  buildFlat();
+  answers = new Array(TOTAL_Q).fill(null);
+  idx = 0;
+  show('quiz');
+  renderQ();
+}
+
+const arNum = n => String(n).replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]);
+
+function renderQ(){
+  const q = flat[idx];
+  document.getElementById('counter').textContent = arNum(idx+1) + " / " + arNum(TOTAL_Q);
+  document.getElementById('barFill').style.width = (idx/TOTAL_Q*100) + "%";
+  document.getElementById('axisTag').textContent = "المحور: " + AXES[q.axis].name;
+  document.getElementById('qText').textContent = q.text;
+
+  const box = document.getElementById('opts');
+  box.innerHTML = "";
+  OPTIONS.forEach(o => {
+    const b = document.createElement('button');
+    b.className = 'opt' + (answers[idx] === o.v ? ' sel' : '');
+    b.innerHTML = '<span class="dot"></span>' + o.label;
+    b.onclick = () => {
+      answers[idx] = o.v;
+      box.querySelectorAll('.opt').forEach(x => x.classList.remove('sel'));
+      b.classList.add('sel');
+      document.getElementById('nextBtn').disabled = false;
+      setTimeout(nextQ, 260);
+    };
+    box.appendChild(b);
+  });
+
+  document.getElementById('prevBtn').style.visibility = idx === 0 ? 'hidden' : 'visible';
+  document.getElementById('nextBtn').textContent = idx === TOTAL_Q - 1 ? "عرض النتيجة" : "التالي";
+  document.getElementById('nextBtn').disabled = answers[idx] === null;
+}
+
+function nextQ(){
+  if(answers[idx] === null) return;
+  if(idx < TOTAL_Q - 1){ idx++; renderQ(); }
+  else showResult();
+}
+
+function prevQ(){ if(idx > 0){ idx--; renderQ(); } }
+
+/* ========== النتيجة ========== */
+function verdict(s){
+  if(s >= 85) return "ذكاء مرتفع جداً";
+  if(s >= 65) return "ذكاء فوق المتوسط";
+  if(s >= 40) return "ذكاء متوسط";
+  return "ذكاء منخفض";
+}
+
+function showResult(){
+  /* العلامة النهائية من 100 = (المجموع ÷ 160) × 100 */
+  const raw = answers.reduce((a,b) => a + b, 0);
+  const score = Math.round(raw / MAX_SCORE * 100);
+
+  show('result');
+  document.getElementById('verdict').textContent = verdict(score);
+
+  const C = 2 * Math.PI * 84;
+  const ring = document.getElementById('ringFg');
+  ring.style.strokeDasharray = C;
+  ring.style.strokeDashoffset = C;
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      ring.style.strokeDashoffset = C * (1 - score/100);
+    });
+  });
+
+  let n = 0;
+  const el = document.getElementById('scoreNum');
+  const step = () => {
+    n += Math.max(1, Math.ceil((score - n)/10));
+    if(n >= score) n = score;
+    el.textContent = arNum(n);
+    if(n < score) setTimeout(step, 60);
+  };
+  step();
+}
+
+function restart(){ show('start'); }
+</script>
+</body>
+</html>
